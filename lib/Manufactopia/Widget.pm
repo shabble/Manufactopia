@@ -3,13 +3,26 @@ package Manufactopia::Widget;
 use Carp;
 use Moose;
 
-has 'rotation'
-  => (
-      is => 'rw',
-      isa => 'Int',
-      default => 0,
-      # todo: add NESW anglular constraint (%90)
-     );
+# assume the default output (0deg rotation) is to the south.
+# North: x, y-1
+# East : x+1, y
+# South: x, y+1
+# West : x-1, y
+
+has 'name' =>
+  (
+   is      => 'rw',
+   isa     => 'Str',
+   default => 'Empty Floor',
+  );
+
+has 'rotation' =>
+  (
+   is => 'rw',
+   isa => 'Int',
+   default => 0,
+   # todo: add NESW anglular constraint (%90)
+  );
 
 sub glyphs {
     return ("#");
@@ -23,11 +36,13 @@ sub glyph {
     # glyph.
     return $glyphs[0] unless scalar(@glyphs) == 4;
     # otherwise send the appropriate glyph for the rotation.
-    return $glyphs[_translate_glyph_rotation($self->rotation)];
+    return $glyphs[$self->translate_glyph_rotation];
 }
 
-sub _translate_glyph_rotation {
-    my ($angle) = @_;
+sub translate_glyph_rotation {
+    my $self = shift;
+    my $angle = $self->rotation;
+
     if (($angle % 90) != 0) {
         carp "Invalid Angle";
     } else {
@@ -37,8 +52,9 @@ sub _translate_glyph_rotation {
 
 sub evaluate {
     my ($self, $cursor) = @_;
-    $cursor->ypos($cursor->ypos + 1);
-    return;
+    # we've been dropped on a floor.
+    
+    return 'f';
 }
 
 no Moose;

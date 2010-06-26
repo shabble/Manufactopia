@@ -5,6 +5,8 @@ use Manufactopia::Widget;
 
 extends 'Manufactopia::Widget';
 
+has '+name' => ( default => 'Output' );
+
 sub glyphs {
     return qw/O/;
 }

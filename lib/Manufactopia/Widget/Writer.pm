@@ -4,20 +4,24 @@ use Moose;
 use Manufactopia::Widget;
 
 extends 'Manufactopia::Widget';
+has '+name' => ( default => 'Tape Writer' );
 
 has 'colour' =>
   (
    is  => 'rw',
    isa => 'Str',
+
   );
 
 sub evaluate {
     my ($self, $cursor) = @_;
-    $cursor-
+    print "Writing to tape\n";
+    $cursor->tape_write($self->colour);
+    $cursor->move_forward;
 }
 
 sub glyphs {
-    return qw/^ > V </;
+    return qw/W/;
 }
 no Moose;
 __PACKAGE__->meta->make_immutable;

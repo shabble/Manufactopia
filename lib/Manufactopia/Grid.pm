@@ -33,8 +33,6 @@ sub BUILD {
         push @grid, $row;
     }
 
-#    print Dumper(\@grid);
-
     $self->grid(\@grid);
 }
 
@@ -54,17 +52,25 @@ sub add_widget {
 }
 
 sub draw {
-    my $self = shift;
+    my ($self, $cursor) = @_;
     my $grid = $self->grid;
     my $print_grid = '';
 
+    my $bold = `tput bold`;
+    my $unbold = `tput rmso`;
+
+    my ($x, $y) = (0, 0);
     foreach my $row (@$grid) {
         foreach my $widget (@$row) {
-
             my $glyph = $widget->glyph;
-            $print_grid .= $glyph;
-
+            if ($x == $cursor->xpos && $y == $cursor->ypos) {
+                $print_grid .= $bold . $glyph . $unbold;
+            } else {
+                $print_grid .= $glyph;
+            }
+            $x++;
         }
+        $y++; $x = 0;
         $print_grid .= "\n";
     }
     return $print_grid, "\n";
