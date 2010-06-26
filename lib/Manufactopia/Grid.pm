@@ -2,7 +2,6 @@ package Manufactopia::Grid;
 
 use Moose;
 use Data::Dumper;
-use Manufactopia::Tile;
 
 has 'width'
   => (
