@@ -40,9 +40,12 @@ sub BUILD {
 }
 
 sub add_widget {
-    my ($self, $widget, $x, $y) = @_;
+    my ($self, $widget, $x, $y, $rot) = @_;
     my $grid = $self->grid;
-    $grid->[$y]->[$x]->contents($widget);
+    $rot //= 0;
+    my $tile = $grid->[$y]->[$x];
+    $tile->contents($widget);
+    $tile->rotation($rot);
 }
 
 sub draw {

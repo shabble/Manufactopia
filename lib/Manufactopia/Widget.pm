@@ -2,8 +2,8 @@ package Manufactopia::Widget;
 
 use Moose;
 
-sub glyph {
-    return 'W';
+sub glyphs {
+    return qw/W W W W/;
 }
 
 no Moose;

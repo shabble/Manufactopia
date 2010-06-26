@@ -5,8 +5,8 @@ use Manufactopia::Widget;
 
 extends 'Manufactopia::Widget';
 
-sub glyph {
-    return '>';
+sub glyphs {
+    return qw/^ > V </;
 }
 no Moose;
 __PACKAGE__->meta->make_immutable;
