@@ -19,7 +19,7 @@ has 'height'
 has 'grid'
   => (
       is  => 'rw',
-      isa => 'ArrayRef[ArrayRef[Manufactopia::Tile]]',
+      isa => 'ArrayRef[ArrayRef[Manufactopia::Widget]]',
      );
 
 sub BUILD {
@@ -29,23 +29,29 @@ sub BUILD {
     foreach my $y (0..$self->height -1) {
         $row = [];
         foreach my $x (0..$self->width -1) {
-            push @$row, new Manufactopia::Tile();
+            push @$row, new Manufactopia::Widget();
         }
         push @grid, $row;
     }
 
-    print Dumper(\@grid);
+#    print Dumper(\@grid);
 
     $self->grid(\@grid);
+}
+
+sub widget_at {
+    my ($self, $cursor) = @_;
+    my $tile = $self->grid->[$cursor->ypos]->[$cursor->xpos];
+    return $tile;
 }
 
 sub add_widget {
     my ($self, $widget, $x, $y, $rot) = @_;
     my $grid = $self->grid;
-    $rot //= 0;
-    my $tile = $grid->[$y]->[$x];
-    $tile->contents($widget);
-    $tile->rotation($rot);
+    if (defined $rot) {
+        $widget->rotation($rot);
+    }
+    $grid->[$y]->[$x] = $widget;
 }
 
 sub draw {
@@ -54,22 +60,15 @@ sub draw {
     my $print_grid = '';
 
     foreach my $row (@$grid) {
-        foreach my $tile (@$row) {
-#            my $widget = $tile->contents;
-            my $glyph = $tile->glyph;
+        foreach my $widget (@$row) {
 
-            # if (defined $widget) {
-            #     $glyph = $widget->glyph;
-            # } else {
-            #     $glyph = '#';
-            # }
-
+            my $glyph = $widget->glyph;
             $print_grid .= $glyph;
 
         }
         $print_grid .= "\n";
     }
-    print $print_grid, "\n";
+    return $print_grid, "\n";
 }
 no Moose;
 __PACKAGE__->meta->make_immutable;

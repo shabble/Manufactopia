@@ -1,4 +1,4 @@
-package Manufactopia::Widget::Output;
+package Manufactopia::Widget::Branch;
 
 use Moose;
 use Manufactopia::Widget;
@@ -6,14 +6,8 @@ use Manufactopia::Widget;
 extends 'Manufactopia::Widget';
 
 sub glyphs {
-    return qw/O/;
+    return qw/^ > V </;
 }
-
-sub evaluate {
-    my ($self, $cursor) = @_;
-    return 'O';
-}
-
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
