@@ -60,6 +60,22 @@ sub tape_peek {
     return $self->tape->[0];
 }
 
+
+sub tape_compare {
+    my ($self, $other_tape) = @_;
+    my $tape = $self->tape;
+    my $index = 0;
+    foreach my $token (@$tape) {
+        if ($token ne $other_tape->[$index]) {
+            return 0;
+        }
+        $index++;
+    }
+    return 1;
+}
+
+# ------------ Movement methods ------------------------------------------
+
 sub relocate {
     my ($self, $x, $y) = @_;
     $self->xpos($x);
@@ -107,19 +123,6 @@ sub move_right {
     my ($self, $rotation) = @_;
     $self->move(1, 0, $rotation);
 
-}
-
-sub tape_compare {
-    my ($self, $other_tape) = @_;
-    my $tape = $self->tape;
-    my $index = 0;
-    foreach my $token (@$tape) {
-        if ($token ne $other_tape->[$index]) {
-            return 0;
-        }
-        $index++;
-    }
-    return 1;
 }
 
 sub draw {
