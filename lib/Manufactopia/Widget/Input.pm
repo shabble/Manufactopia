@@ -13,6 +13,7 @@ sub glyphs {
 
 sub evaluate {
     my ($self, $cursor) = @_;
+    # TODO: only allow this at the beginning, otherwise it counts as floor.
     $cursor->move_forward($self->rotation);
 }
 

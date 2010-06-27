@@ -11,6 +11,8 @@ use Manufactopia::InputParser;
 use Manufactopia::Grid;
 use Manufactopia::Cursor;
 
+use Manufactopia::Simulator;
+
 use Manufactopia::Widget;
 use Manufactopia::Widget::Conveyor;
 use Manufactopia::Widget::Writer;
@@ -18,99 +20,43 @@ use Manufactopia::Widget::Branch;
 use Manufactopia::Widget::Input;
 use Manufactopia::Widget::Output;
 
-my ($grid, $cursor, $config);
-my $running = 1;
-my $ticks = 0;
+#TODO: move a whole bunch of this into Simulator.pm
+my $sim;
 
-sub setup_grid {
-    my ($w, $h) = @_;
 
-    my $input  = Manufactopia::Widget::Input->new;
-    my $output = Manufactopia::Widget::Output->new;
 
-    my $input_conf  = $config->get("input");
-    my $output_conf = $config->get("output");
-
-    $grid->add_widget($input,
-                      $input_conf->{x},
-                      $input_conf->{y},
-                      $input_conf->{r});
-
-    $grid->add_widget($output,
-                      $output_conf->{x},
-                      $output_conf->{y},
-                      $output_conf->{r});
+sub draw {
+    print $sim->grid->draw($sim->cursor);
+    print "Tape:\n";
+    print $sim->cursor->draw;
+    print "\n";
 }
 
-sub load_machine {
-    my $machine_spec = Manufactopia::InputParser->new(filename => 'machine.yml');
-    $machine_spec->populate_grid($grid, $config);
-}
-
-sub step {
-    my $current_widget = $grid->widget_at($cursor);
-    # TODO: action should be an obj?
-    my $action = $current_widget->evaluate($cursor);
-    $action //= '';
-    if ($action eq 'O') {
-        print "Machine Completed!\n";
-        $running = 0;
-    } elsif ($action eq 'f') {
-        print "Machine Dropped product!\n";
-        $running = 0;
-    }
-
-    print $current_widget->name, "\n";
-    $ticks++;
-}
-
-sub reset_machine {
-    my ($tape) = @_;
-
-    $cursor->tape($tape);
-
-    my $input_conf  = $config->get("input");
-    $cursor->relocate($input_conf->{x}, $input_conf->{y});
-    $ticks = 0;
-}
 sub main {
 
-    my $config_file = $ARGV[0] // 'config.yml';
-    $config = Manufactopia::ConfigParser->new(filename => $config_file);
+    # my $config_file = $ARGV[0] // 'config.yml';
+    # $config = Manufactopia::ConfigParser->new(filename => $config_file);
+    $sim = Manufactopia::Simulator->new;
+    $sim->setup_grid;
+    $sim->load_machine;
 
-    my $w = $config->get('width');
-    my $h = $config->get('height');
-
-
-    $grid   = Manufactopia::Grid->new(width => $w, height => $h);
-    $cursor = Manufactopia::Cursor->new;
-
-    setup_grid($w, $h);
-    load_machine;
-
-    my @testcases = @{$config->get('testcases')};
+    my @testcases = @{$sim->config->get('testcases')};
     my $test_num = 0;
 
     foreach my $test (@testcases) {
         my $start_tape = [split '', $test->{start_tape}];
-        $running = 1;
-        reset_machine($start_tape);
+
+        $sim->reset_machine($start_tape);
+        $sim->start;
+
         print "Test: $test_num\n";
 
-        print $grid->draw($cursor);
-        print "Tape:\n";
-        print $cursor->draw;
-        print "\n";
+        draw();
 
-        while ($running) {
-
+        while ($sim->is_running) {
             <STDIN>;
-
-            step();
-            print $grid->draw($cursor);
-            print "Tape:\n";
-            print $cursor->draw;
-            print "\n";
+            $sim->step();
+            draw();
         }
 
         $test_num++;

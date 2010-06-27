@@ -12,6 +12,7 @@ sub glyphs {
 }
 
 sub evaluate {
+    # TODO: check which direction we came in from?
     my ($self, $cursor) = @_;
     $cursor->move_forward($self->rotation);
 }

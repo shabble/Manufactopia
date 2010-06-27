@@ -18,6 +18,18 @@ our $rotation_map =
            [-1, 0]],
   };
 
+has 'prevx' =>
+  (
+   is  => 'rw',
+   isa => 'Int',
+  );
+
+has 'prevy' =>
+  (
+   is  => 'rw',
+   isa => 'Int',
+  );
+
 has 'xpos' =>
   (
    is  => 'rw',
@@ -67,6 +79,10 @@ sub move {
 
 #    print "Move: $x_offset, $y_offset, $rotation\n";
 #    print "New pos: $new_x, $new_y\n";
+
+    $self->prevx($self->xpos);
+    $self->prevy($self->ypos);
+
     $self->relocate($self->xpos + $new_x, $self->ypos + $new_y);
 }
 

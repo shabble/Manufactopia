@@ -85,7 +85,7 @@ sub populate_grid {
             $widget = Manufactopia::Widget::Writer->new(colour => $colour);
 
         } elsif ($type eq 'branch') {
-            print "Colour: $params->{flipped}\n";
+#            print "Colour: $params->{flipped}\n";
             if (exists($params->{flipped}) && $params->{flipped}) {
                 $colour = scalar reverse $colour;
             }
@@ -111,8 +111,6 @@ sub populate_grid {
               . "is not permitted by problem rules";
             die $msg;
         }
-        # print "Type: $type\n";
-        # print Dumper($params), $/;
     }
 }
 no Moose;

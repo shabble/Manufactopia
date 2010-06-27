@@ -41,7 +41,8 @@ sub widget_at {
     my $tile = $self->grid->[$cursor->ypos]->[$cursor->xpos];
     return $tile;
 }
-
+# TODO: need some way of having two conveyors on a single square
+# as long as they're orthogonal.
 sub add_widget {
     my ($self, $widget, $x, $y, $rot) = @_;
     my $grid = $self->grid;
