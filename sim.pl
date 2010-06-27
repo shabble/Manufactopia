@@ -13,13 +13,6 @@ use Manufactopia::Cursor;
 
 use Manufactopia::Simulator;
 
-# use Manufactopia::Widget;
-# use Manufactopia::Widget::Conveyor;
-# use Manufactopia::Widget::Writer;
-# use Manufactopia::Widget::Branch;
-# use Manufactopia::Widget::Input;
-# use Manufactopia::Widget::Output;
-
 my $sim;
 
 sub draw {

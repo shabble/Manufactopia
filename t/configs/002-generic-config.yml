@@ -1,0 +1,36 @@
+width: 3
+height: 5
+
+input:
+  x: 1
+  y: 0
+  r: 0
+
+output:
+  x: 1
+  y: 4
+  r: 0
+
+problem_statement: "problem statement"
+
+permitted_widgets:
+  - conveyor: { cost: 10 }
+  - branch: { colour: 'RB', cost: 20 }
+  - writer: { colour: 'R',  cost: 20 }
+  - writer: { colour: 'B',  cost: 20 }
+
+# accept means the tstcase should be accepted at the output, regardless of
+# tape contents. end_tape should match the machine tape when it hits the output.
+testcases:
+  - start_tape: R
+    accept:     1
+    value:      100
+
+  - start_tape: B
+    end_tape:   R
+    value:      100
+
+  - start_tape: B
+    accept:     0
+    value:      100
+
