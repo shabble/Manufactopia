@@ -30,8 +30,12 @@ sub draw {
 }
 
 sub main {
+    my @args;
+    push @args, config_file  => $ARGV[0] if $ARGV[0];
+    push @args, machine_file => $ARGV[1] if $ARGV[1];
 
-    $sim = Manufactopia::Simulator->new;
+    $sim = Manufactopia::Simulator->new(@args);
+
     $sim->setup_grid;
     $sim->load_machine;
 
