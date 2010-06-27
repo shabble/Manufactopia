@@ -57,6 +57,10 @@ sub evaluate {
     return 'f';
 }
 
+sub is_output_widget {
+    return 0;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 

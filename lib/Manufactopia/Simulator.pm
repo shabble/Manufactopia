@@ -48,6 +48,16 @@ has 'config' =>
    lazy => 1,
   );
 
+has 'machine' =>
+  (
+   is   => 'ro',
+   isa  => 'Manufactopia::InputParser',
+   default => sub {
+       Manufactopia::InputParser->new(filename => shift->machine_file);
+     },
+   lazy => 1,
+  );
+
 has 'grid' =>
   (
    is   => 'ro',
@@ -84,7 +94,7 @@ sub step {
     # TODO: figure out where and how to add the overall evaluation function
     $action //= '';
     if ($action eq 'O') {
-        print "Machine Completed!\n";
+        print "product reached output!\n";
         $self->is_running(0);
     } elsif ($action eq 'f') {
         print "Machine Dropped product!\n";
@@ -136,10 +146,43 @@ sub setup_grid {
 
 sub load_machine {
     my $self = shift;
-    my $machine_spec
-      = Manufactopia::InputParser->new(filename => $self->machine_file);
+    # my $machine_spec
+    #   = Manufactopia::InputParser->new(filename => $self->machine_file);
+    my $machine_spec = $self->machine;
     $machine_spec->populate_grid($self->grid, $self->config);
 }
 
+sub evaluate_end_condition {
+    my ($self, $testcase) = @_;
+    my $should_accept = $testcase->{accept} // 1;
+    my $end_widget = $self->grid->widget_at($self->cursor);
+
+    my $output_tape = exists($testcase->{end_tape})
+      ?[ split(' ', $testcase->{end_tape}) ]
+        :undef;
+
+    my $has_output_tape = defined($output_tape);
+
+    if ($end_widget->is_output_widget) {
+        if ($has_output_tape) {
+            if ($self->cursor->tape_compare($output_tape)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        if ($should_accept) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        if ($should_accept) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+}
 no Moose;
 __PACKAGE__->meta->make_immutable;

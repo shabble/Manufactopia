@@ -109,6 +109,18 @@ sub move_right {
 
 }
 
+sub tape_compare {
+    my ($self, $other_tape) = @_;
+    my $tape = $self->tape;
+    my $index = 0;
+    foreach my $token (@$tape) {
+        if ($token ne $other_tape->[$index]) {
+            return 0;
+        }
+        $index++;
+    }
+    return 1;
+}
 sub draw {
     my $self = shift;
     return '[' . $self->xpos . ', ' . $self->ypos . '] '

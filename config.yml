@@ -19,14 +19,14 @@ permitted_widgets:
   - writer: { colour: 'R',  cost: 20 }
   - writer: { colour: 'B',  cost: 20 }
 
+# accept means the tstcase should be accepted at the output, regardless of
+# tape contents. end_tape should match the machine tape when it hits the output.
 testcases:
   - start_tape: R
     accept:     1
-    end_tape:   R
     value:      100
 
   - start_tape: B
-    accept:     1
     end_tape:   R
     value:      100
 

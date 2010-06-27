@@ -46,29 +46,10 @@ sub BUILD {
     $self->machine($data);
 }
 
-#TODO: refactor this into Config class.
-#TODO: is there a nicer data structure for this? Probably doesn't matter
-# since we're not going to have a huge list of components (I hope)
-sub _is_permitted_widget {
-    my ($widget_type, $widget_colour, $permitted) = @_;
-
-    foreach my $allowed (@$permitted) {
-        my $type = [ keys %$allowed ]->[0];
-
-        if ($widget_type eq $type) {
-            my $colour = $allowed->{$type}->{colour} // '';
-            if ($widget_colour eq $colour) {
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
 sub populate_grid {
     my ($self, $grid, $config) = @_;
 
-    my $permitted = $config->get('permitted_widgets');
+    #my $permitted = $config->get('permitted_widgets');
     my $total_cost = 0;
 
     foreach my $entry (@{$self->machine}) {
@@ -97,13 +78,15 @@ sub populate_grid {
         }
 
         #TODO: error checking here.
-        if (_is_permitted_widget($type, $colour, $permitted)) {
+        if ($config->is_permitted_widget($type, $colour)) {
             $grid->add_widget(
                               $widget,
                               $params->{x},
                               $params->{y},
                               $params->{r}
                              );
+            $total_cost += $config->widget_cost($type, $colour);
+
         } else {
             #TODO: nicer aerror handling
             my $col_msg = length($colour)?"with colour '$colour' ":"";
@@ -111,6 +94,7 @@ sub populate_grid {
               . "is not permitted by problem rules";
             die $msg;
         }
+        $self->cost($total_cost);
     }
 }
 no Moose;
