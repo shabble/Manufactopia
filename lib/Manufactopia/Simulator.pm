@@ -86,7 +86,7 @@ has 'is_running' =>
 
 sub step {
     my $self = shift;
-    my $current_widget = $self->grid->widget_at($self->cursor);
+    my $current_widget = $self->grid->widget_at_cursor($self->cursor);
     # TODO: action should be an obj?
     # what actions need to affect teh global gamestate?
     # - Termination
@@ -146,8 +146,6 @@ sub setup_grid {
 
 sub load_machine {
     my $self = shift;
-    # my $machine_spec
-    #   = Manufactopia::InputParser->new(filename => $self->machine_file);
     my $machine_spec = $self->machine;
     $machine_spec->populate_grid($self->grid, $self->config);
 }
@@ -155,7 +153,7 @@ sub load_machine {
 sub evaluate_end_condition {
     my ($self, $testcase) = @_;
     my $should_accept = $testcase->{accept} // 1;
-    my $end_widget = $self->grid->widget_at($self->cursor);
+    my $end_widget = $self->grid->widget_at_cursor($self->cursor);
 
     my $output_tape = exists($testcase->{end_tape})
       ?[ split(' ', $testcase->{end_tape}) ]

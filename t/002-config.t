@@ -61,7 +61,6 @@ ok ($output->{x} >= 0 && $output->{x} < $w, 'output x within width');
 ok ($output->{y} >= 0 && $output->{y} < $h, 'output y within height');
 ok ($output->{r} % 90 == 0, 'output rot is 90 degree angle');
 
-
 # permitted widgets
 my $permitted_widgets = $config_parser->get('permitted_widgets');
 ok( ref($permitted_widgets) eq 'ARRAY', 'permitted widgets is arrayref' );

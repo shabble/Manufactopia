@@ -49,7 +49,6 @@ sub BUILD {
 sub populate_grid {
     my ($self, $grid, $config) = @_;
 
-    #my $permitted = $config->get('permitted_widgets');
     my $total_cost = 0;
 
     foreach my $entry (@{$self->machine}) {
@@ -85,6 +84,7 @@ sub populate_grid {
                               $params->{y},
                               $params->{r}
                              );
+
             $total_cost += $config->widget_cost($type, $colour);
 
         } else {

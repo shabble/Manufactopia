@@ -13,6 +13,9 @@ output:
 
 problem_statement: "problem statement"
 
+# cost is mandatory
+# colour is mandatory for branch and writer widgets.
+
 permitted_widgets:
   - conveyor: { cost: 10 }
   - branch: { colour: 'RB', cost: 20 }
@@ -21,6 +24,11 @@ permitted_widgets:
 
 # accept means the tstcase should be accepted at the output, regardless of
 # tape contents. end_tape should match the machine tape when it hits the output.
+
+# start_tape is mandatory
+# only one of accept or end_tape should be present
+# value is mandatory.
+
 testcases:
   - start_tape: R
     accept:     1
