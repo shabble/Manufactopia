@@ -1,0 +1,36 @@
+width: 3
+height: 5
+
+input:
+  x: 1
+  y: 0
+  r: 0
+
+output:
+  x: 1
+  y: 4
+  r: 0
+
+problem_statement: "Accept anything with a red token anywhere in the string"
+
+permitted_widgets:
+  - conveyor: { cost: 10 }
+  - branch: { colour: 'RB', cost: 20 }
+  - writer: { colour: 'R',  cost: 20 }
+  - writer: { colour: 'B',  cost: 20 }
+
+testcases:
+  - start_tape: R
+    accept:     1
+    end_tape:   R
+    value:      100
+
+  - start_tape: B
+    accept:     1
+    end_tape:   R
+    value:      100
+
+  - start_tape: B
+    accept:     0
+    value:      100
+

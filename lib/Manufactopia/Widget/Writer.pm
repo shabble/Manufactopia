@@ -17,7 +17,7 @@ sub evaluate {
     my ($self, $cursor) = @_;
     print "Writing to tape\n";
     $cursor->tape_write($self->colour);
-    $cursor->move_forward;
+    $cursor->move_forward($self->rotation);
 }
 
 sub glyphs {

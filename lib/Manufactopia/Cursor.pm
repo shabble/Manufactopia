@@ -65,8 +65,8 @@ sub move {
     my $map_y = $mapping->[1];
     my $new_y = ($x_offset * $map_y->[0]) + ($y_offset * $map_y->[1]);
 
-    print "Move: $x_offset, $y_offset, $rotation\n";
-    print "New pos: $new_x, $new_y\n";
+#    print "Move: $x_offset, $y_offset, $rotation\n";
+#    print "New pos: $new_x, $new_y\n";
     $self->relocate($self->xpos + $new_x, $self->ypos + $new_y);
 }
 

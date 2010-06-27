@@ -31,12 +31,12 @@ sub evaluate {
         # or right. so RB is the 'flip' of BR.
 
         if ($match == 0) {
-            $cursor->move_left;
+            $cursor->move_left($self->rotation);
         } else {
-            $cursor->move_right;
+            $cursor->move_right($self->rotation);
         }
     } else {
-        $cursor->move_forward;
+        $cursor->move_forward($self->rotation);
     }
 }
 no Moose;

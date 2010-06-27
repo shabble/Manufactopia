@@ -1,0 +1,8 @@
+- conveyor: { x: 1, y: 1, r: 0   }
+- conveyor: { x: 1, y: 2, r: 90  }
+- writer:   { x: 0, y: 2, r: 0, colour: 'R' }
+- conveyor: { x: 0, y: 3, r: 270 }
+- branch:   { x: 1, y: 3, r: 270, colour: 'RB', flipped: 0 }
+#- branch:   { x: 1, y: 3, r: 270, colour: 'BR' }
+- conveyor: { x: 2, y: 4, r: 180 }
+
