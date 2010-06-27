@@ -121,15 +121,12 @@ sub tape_compare {
     }
     return 1;
 }
+
 sub draw {
     my $self = shift;
     return '[' . $self->xpos . ', ' . $self->ypos . '] '
       . '[' . join(', ', @{$self->tape}) . ']';
 }
-# sub tape_write {
-#     my ($self, $colour) = @_;
-#     $self->
-# }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

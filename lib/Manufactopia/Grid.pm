@@ -83,6 +83,7 @@ sub remove_widget_at_pos {
     }
     my $grid = $self->grid;
     $grid->[$y]->[$x] = Manufactopia::Widget->new();
+    return $existing;
 }
 
 sub draw {

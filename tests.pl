@@ -2,6 +2,12 @@
 
 use Test::Harness;
 
-my @files = glob "t/*.t";
+my @files;
+if (@ARGV) {
+    @files = @ARGV;
+} else {
+    @files= glob "t/*.t";
+}
+
 runtests @files;
 
