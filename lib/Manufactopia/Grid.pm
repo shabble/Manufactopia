@@ -22,9 +22,17 @@ has 'grid'
   => (
       is  => 'rw',
       isa => 'ArrayRef[ArrayRef[Manufactopia::Widget]]',
+      lazy => 1,
+      builder => '_build_grid',
+
      );
 
-sub BUILD {
+sub reset {
+    my $self = shift;
+    $self->_build_grid;
+}
+
+sub _build_grid {
     my $self = shift;
     my @grid;
     my $row;
